@@ -1,0 +1,13 @@
+menu:
+- {name: 'Hardware', url: '/hardware'}
+- {name: 'Software', url: '/software'}
+- {name: 'Connect', url: '/connect'}
+- {name: 'Support', url: '/support'}
+- {name: 'Github', url: '/github'}
+
+social:
+- {icon: 'github', link: 'https://github.com/remosim'}
+- {icon: 'twitter', link: 'https://twitter.com/remosim_com'}
+- {icon: 'instagram', link: 'https://instagram.com/remosim_com'}
+- {icon: 'linkedin', link: 'https://linkedin.com/in/remosim'}
+
