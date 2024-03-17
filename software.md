@@ -803,3 +803,15 @@ for text in texts:
 ```
 chmod +x /scripts/tg.py
 ```
+
+## To set the phone number on sim card
+As per this [guide](https://stackoverflow.com/a/44797593/5112995), the following commands can be used to set the sim card number on the card using [atinout](https://atinout.sourceforge.net/)
+
+```
+echo at+cnum | atinout - /dev/ttyUSB2 -
+echo at+cpbs? | atinout - /dev/ttyUSB2 -
+echo at+cpbs=\"ON\" | atinout - /dev/ttyUSB2 -
+echo at+cpbs? | atinout - /dev/ttyUSB2 -
+echo at+cpbw=,\"+981212121212\" | atinout - /dev/ttyUSB2 -
+echo at+cnum | atinout - /dev/ttyUSB2 -
+```
