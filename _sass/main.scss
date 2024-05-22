@@ -128,16 +128,16 @@ pre {
   display: none;
 }
 
-::-moz-selection {
-  color: #fff;
-  text-shadow: none;
-  background-color: "#0085A1";
-}
-::selection {
-  color: #fff;
-  text-shadow: none;
-  background-color: "#0085A1";
-}
+// ::-moz-selection {
+//   color: #fff;
+//   text-shadow: none;
+//   background-color: "#0085A1";
+// }
+// ::selection {
+//   color: #fff;
+//   text-shadow: none;
+//   background-color: "#0085A1";
+// }
 img::selection {
   color: #fff;
   background: transparent;
