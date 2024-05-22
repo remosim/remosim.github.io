@@ -54,9 +54,7 @@ cd asterisk-20.*
 contrib/scripts/get_mp3_source.sh
 # if needed proxy update the following line in get_mp3_source.sh then run it :
 # svn export https://svn.digium.com/svn/thirdparty/mp3/trunk addons/mp3 --config-option servers:global:http-proxy-host=localhost --config-option servers:global:http-proxy-port=1080 $@
-## This line is only needed on rpi 64 bit (arm64)
-sed -i contrib/scripts/install_prereq -e "s,i386,armhf,g"
-##
+#
 contrib/scripts/install_prereq install
 # open source codec_opus
 apt-get --assume-yes install build-essential autoconf libssl-dev libncurses-dev libnewt-dev libxml2-dev libsqlite3-dev uuid-dev libjansson-dev libblocksruntime-dev xmlstarlet libopusfile-dev libopus-dev
