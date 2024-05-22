@@ -34,7 +34,7 @@ sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd
 service sshd restart
 
 # Install required packages
-apt install -y build-essential raspberrypi-kernel-headers apache2 mariadb-server mariadb-client php php-curl php-cli php-mysql php-pear php-gd php-mbstring php-intl php-bcmath curl sox mpg123 lame ffmpeg sqlite3 git unixodbc sudo dirmngr php-ldap nodejs npm pkg-config libicu-dev curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python3-dev unixodbc dirmngr sendmail-bin sendmail htop cmake libmariadb-dev-compat nload dnsutils vnstat
+apt install -y build-essential raspberrypi-kernel-headers apache2 mariadb-server mariadb-client php php-curl php-cli php-mysql php-pear php-gd php-mbstring php-intl php-bcmath curl sox mpg123 lame ffmpeg sqlite3 git unixodbc sudo dirmngr php-ldap nodejs npm pkg-config libicu-dev curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python3-dev unixodbc dirmngr sendmail-bin sendmail htop cmake libmariadb-dev-compat nload dnsutils vnstat screen
 
 # add the following line to [mysqld] section of /etc/mysql/mariadb.conf.d/50-server.cnf
 sql_mode=NO_ENGINE_SUBSTITUTION
@@ -52,7 +52,8 @@ wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-20-current.ta
 tar xvfz asterisk-20-current.tar.gz
 cd asterisk-20.*
 contrib/scripts/get_mp3_source.sh
-# if needed proxy update the following line in get_mp3_source.sh then run it : svn export https://svn.digium.com/svn/thirdparty/mp3/trunk addons/mp3 --config-option servers:global:http-proxy-host=localhost --config-option servers:global:http-proxy-port=1080 $@
+# if needed proxy update the following line in get_mp3_source.sh then run it :
+# svn export https://svn.digium.com/svn/thirdparty/mp3/trunk addons/mp3 --config-option servers:global:http-proxy-host=localhost --config-option servers:global:http-proxy-port=1080 $@
 ## This line is only needed on rpi 64 bit (arm64)
 sed -i contrib/scripts/install_prereq -e "s,i386,armhf,g"
 ##
