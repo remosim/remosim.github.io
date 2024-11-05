@@ -648,9 +648,9 @@ The following code should also be added to `/etc/asterisk/extensions_custom.conf
 ```
 [dongle-incoming]
 exten => sms,1,Set(who=${SHELL(/scripts/who.sh ${DONGLENAME})})
-exten => sms,n,System(echo '${STRFTIME(${EPOCH},,%Y-%m-%d %H:%M:%S)} - ${DONGLENAME} - ${CALLERID(num)}: ${BASE64_DECODE(${SMS_BASE64})}' >> /var/log/asterisk/sms.txt)
+exten => sms,n,Set(FILE(/var/log/asterisk/sms.txt,,,al,u)=${STRFTIME(${EPOCH},,%Y-%m-%d %H:%M:%S)} - ${DONGLENAME} - ${CALLERID(num)}: ${BASE64_DECODE(${SMS_BASE64})})
 ; exten => sms,n,System(echo '${BASE64_DECODE(${SMS_BASE64})}' | mail --content-type 'text/plain${SPRINTF(%c,59)} charset=utf-8' -r 'VOIP Server ${SPRINTF(%c,60)}sms@mydomain.com${SPRINTF(%c,62)}' -s 'New SMS: ${CALLERID(num)} @${DONGLENAME}' ${who})
-exten => sms,n,System(/scripts/tg.py --sender '${CALLERID(num)}' --dongle '${DONGLENAME}' --destination '${who}' --message '${BASE64_DECODE(${SMS_BASE64})}')
+exten => sms,n,System(/scripts/tg.py --sender '${CALLERID(num)}' --dongle '${DONGLENAME}' --destination '${who}' --message-base64 '${SMS_BASE64}')
 exten => sms,n,Hangup()
 
 exten => ussd,1,Set(type=${USSD_TYPE})
@@ -727,14 +727,24 @@ print("tg.py $sender $dongle $dest $message")
 import sys, time, subprocess, pickle, os
 now = time.strftime("%Y-%m-%d %H:%M:%S")
 
-if len(sys.argv) > 1:
-	sender=sys.argv[2]
-	dongle=sys.argv[4]
-	dest=sys.argv[6]
-	message=sys.argv[8]
-else:
-	sender, dongle, dest = False, False, False
-	message = []
+# Initialize variables
+sender = dongle = dest = False
+message = []
+
+# Iterate over the arguments skipping the first one (the script name)
+for i in range(1, len(sys.argv), 2):
+    if sys.argv[i] == '--sender':
+        sender = sys.argv[i + 1]
+    elif sys.argv[i] == '--dongle':
+        dongle = sys.argv[i + 1]
+    elif sys.argv[i] == '--dest':
+        dest = sys.argv[i + 1]
+    elif sys.argv[i] == '--message':
+        message = sys.argv[i + 1]
+    elif sys.argv[i] == '--message-base64':
+        import base64
+        message_base64 = sys.argv[i + 1]
+        message = base64.b64decode(message_base64).decode('utf-8')
 
 blacklist = [
 	"SpamText1",
