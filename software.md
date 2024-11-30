@@ -16,7 +16,7 @@ sudo passwd
 su 
 
 # Fix vim
-echo "set nocompatible" > /root/.vimrc
+echo "set nocompatible\nset mouse-=a" > /root/.vimrc
 
 # Disable ipv6 if it is causing problems in your network:
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -34,7 +34,10 @@ sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd
 service sshd restart
 
 # Install required packages
-apt install -y build-essential raspberrypi-kernel-headers apache2 mariadb-server mariadb-client php php-curl php-cli php-mysql php-pear php-gd php-mbstring php-intl php-bcmath curl sox mpg123 lame ffmpeg sqlite3 git unixodbc sudo dirmngr php-ldap nodejs npm pkg-config libicu-dev curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python3-dev unixodbc dirmngr sendmail-bin sendmail htop cmake libmariadb-dev-compat nload dnsutils vnstat screen
+apt install -y build-essential raspberrypi-kernel-headers apache2 mariadb-server mariadb-client php php-curl php-cli php-mysql php-pear php-gd php-mbstring php-intl php-bcmath curl sox mpg123 lame ffmpeg sqlite3 git unixodbc sudo dirmngr php-ldap nodejs npm pkg-config libicu-dev curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python3-dev unixodbc dirmngr sendmail-bin sendmail htop cmake libmariadb-dev-compat nload dnsutils vnstat chrony
+
+# timesync is required for updating packages through desktop 
+systemctl enable chrony --now
 
 # add the following line to [mysqld] section of /etc/mysql/mariadb.conf.d/50-server.cnf
 sql_mode=NO_ENGINE_SUBSTITUTION
@@ -47,10 +50,10 @@ Download and install Asterisk 20 LTS with [opensource codec_opus](https://github
 
 ```
 cd /usr/src
-rm -fr asterisk-20-current.tar.gz
-wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-20-current.tar.gz
-tar xvfz asterisk-20-current.tar.gz
-cd asterisk-20.*
+rm -fr asterisk-22-current.tar.gz
+wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-22-current.tar.gz
+tar xvfz asterisk-22-current.tar.gz
+cd asterisk-22.*
 contrib/scripts/get_mp3_source.sh
 # if needed proxy update the following line in get_mp3_source.sh then run it :
 # svn export https://svn.digium.com/svn/thirdparty/mp3/trunk addons/mp3 --config-option servers:global:http-proxy-host=localhost --config-option servers:global:http-proxy-port=1080 $@
@@ -69,7 +72,7 @@ patch -p1 <./asterisk-opus*/enable_native_plc.patch
 #
 ./configure --with-pjproject-bundled --with-jansson-bundled --with-opus
 make menuselect.makeopts
-menuselect/menuselect --enable app_macro --enable format_mp3  menuselect.makeopts
+menuselect/menuselect --enable format_mp3  menuselect.makeopts
 make
 make install
 make config
@@ -84,7 +87,7 @@ cd /usr/src
 git clone https://github.com/wdoekes/asterisk-chan-dongle
 cd asterisk-chan-dongle
 ./bootstrap
-./configure --with-astversion=20.6 --with-asterisk=/usr/src/asterisk-20.6.0/include
+./configure --with-astversion=22.1 --with-asterisk=/usr/src/asterisk-22.1.0/include
 make
 make install
 
@@ -96,8 +99,6 @@ chown -R asterisk:asterisk /etc/asterisk
 chown -R asterisk:asterisk /var/{lib,log,spool}/asterisk
 sed -i 's|#AST_USER|AST_USER|' /etc/default/asterisk
 sed -i 's|#AST_GROUP|AST_GROUP|' /etc/default/asterisk
-sed -i 's|;runuser|runuser|' /etc/asterisk/asterisk.conf
-sed -i 's|;rungroup|rungroup|' /etc/asterisk/asterisk.conf
 ldconfig
 rm -rf /var/www/html
 mkdir /var/www/html # freepbx reinstall needed
@@ -114,29 +115,13 @@ systemctl restart apache2
 Install Freepbx 17
 
 ```
-# Freepbx 17 requirements
-# compile ODBC driver for aarch64
-# https://mariadb.com/kb/en/mariadb-connector-odbc/
-ver=3.1.20
-cd /usr/src
-wget https://dlm.mariadb.com/3680345/Connectors/odbc/connector-odbc-$ver/mariadb-connector-odbc-$ver-src.tar.gz
-tar -zxvf mariadb-connector-odbc-$ver*
-cd mariadb-connector-odbc-$ver*src/
-mkdir build
-cd build
-# RPI 64 bit:
-DM_DIR=/usr/lib/aarch64-linux-gnu cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_C_FLAGS_RELWITHDEBINFO="-I/usr/include/mariadb -L/usr/lib"
-# RPI 32 bit:
-DM_DIR=/usr/lib/arm-linux-gnueabihf cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_C_FLAGS_RELWITHDEBINFO="-I/usr/include/mariadb -L/usr/lib"
-##
-make
-make install
+# Download and install freepbx 17
+apt -y install build-essential linux-headers-`uname -r` openssh-server apache2 mariadb-server mariadb-client bison flex php8.2 php8.2-curl php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-mbstring  php8.2-intl php8.2-xml php-pear curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3  libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev odbc-mariadb libical-dev libneon27-dev libsrtp2-dev  libspandsp-dev sudo subversion libtool-bin python-dev-is-python3 unixodbc vim wget libjansson-dev software-properties-common nodejs npm ipset iptables fail2ban php-soap git vim curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev expect build-essential git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev libjansson-dev libxml2-dev uuid-dev default-libmysqlclient-dev htop sngrep lame ffmpeg mpg123
 
-# Configure ODBC
 cat <<EOF > /etc/odbcinst.ini
 [MySQL]
 Description = ODBC for MySQL (MariaDB)
-Driver = /usr/local/lib/mariadb/libmaodbc.so
+Driver = /usr/lib/aarch64-linux-gnu/odbc/libmaodbc.so
 FileUsage = 1
 EOF
 
@@ -152,21 +137,21 @@ Socket = /var/run/mysqld/mysqld.sock
 Option = 3
 EOF
 
-# Download and install freepbx 17
-apt -y install build-essential linux-headers-`uname -r` openssh-server apache2 mariadb-server mariadb-client bison flex php8.2 php8.2-curl php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-mbstring  php8.2-intl php8.2-xml php-pear curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3  libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev odbc-mariadb libical-dev libneon27-dev libsrtp2-dev  libspandsp-dev sudo subversion libtool-bin python-dev-is-python3 unixodbc vim wget libjansson-dev software-properties-common nodejs npm ipset iptables fail2ban php-soap git vim curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev expect build-essential git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev libjansson-dev libxml2-dev uuid-dev default-libmysqlclient-dev htop sngrep lame ffmpeg mpg123
-
 cd /usr/src
 # Currently v17.0 is beta and only available on edge
 wget http://mirror.freepbx.org/modules/packages/freepbx/freepbx-17.0-latest-EDGE.tgz
 tar vxfz freepbx-17.0-latest*.tgz
 touch /etc/asterisk/{modules,cdr}.conf
 cd freepbx
+pkill -9 asterisk
 ./start_asterisk start
 # in case you need proxy, add your proxy env vars to the following commands: http_proxy=http://localhost:1080/ http_proxys=http://localhost:1080/
 # also set proxy for npm and restart fwconsole to get the new proxy setting for npm
 # npm config set proxy http://localhost:1080 && npm config set https-proxy http://localhost:1080
 # fwconsole restart
 ./install -n
+sed -i 's|;runuser|runuser|' /etc/asterisk/asterisk.conf
+sed -i 's|;rungroup|rungroup|' /etc/asterisk/asterisk.conf
 # set whatismyip url for freepbx to use https if the default url did not work
 # cp /var/www/html/admin/libraries/Console/Extip.class.php /root/Extip.class.php
 # sed -i -e "s,http://mirror.freepbx.org/whatismyip.php,https://mirror.freepbx.org/whatismyip.php,g" /var/www/html/admin/libraries/Console/Extip.class.php
@@ -200,7 +185,7 @@ echo 'KERNEL=="ttyUSB*", GROUP="dialout", OWNER="asterisk"' > /etc/udev/rules.d/
 # vi /etc/group
 dialout:x:20:pi
 asterisk:x:1001:pi
-
+chmod 755 /home/pi
 ```
 Tuning `asterisk`, add the followings to `/etc/asterisk/asterisk.conf`
 ```
