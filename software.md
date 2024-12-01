@@ -44,13 +44,6 @@ sql_mode=NO_ENGINE_SUBSTITUTION
 # restart mariadb
 service mariadb restart
 ```
-Make your HDMI display always connected, this will prevent [labWC from crashing](https://forums.raspberrypi.com/viewtopic.php?t=328439#p1969811).
-
-```
-vi /boot/firmware/cmdline.txt
-# add the following to the beginning of the line
-video=HDMI-A-1:1920x1200@60D
-```
 
 Download and install Asterisk 20 LTS with [opensource codec_opus](https://github.com/traud/asterisk-opus)
 
