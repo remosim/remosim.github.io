@@ -164,6 +164,9 @@ cat <<EOF > /etc/systemd/system/freepbx.service
 [Unit]
 Description=FreePBX VoIP Server
 After=mariadb.service
+After=network-online.target
+Wants=network-online.target
+
 [Service]
 Type=oneshot
 RemainAfterExit=yes
