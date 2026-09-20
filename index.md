@@ -7,25 +7,37 @@ description: "Open-source remote physical SIM management platform. Keep your SIM
 <!-- Hero Section -->
 <section class="hero-section">
   <div class="hero-content">
-    <div class="hero-badge">
-      <i class="fas fa-satellite-dish"></i> Open Source · Self-Hosted Privacy
-    </div>
-    <h1 class="hero-title">
-      Leave your physical SIMs at home. <span class="gradient-text">Roam free anywhere in the world.</span>
-    </h1>
-    <p class="hero-desc">
-      Say goodbye to expensive international roaming surcharges. RemoSIM connects your physical SIM cards to a <strong>Raspberry Pi</strong> using <strong>Huawei USB dongles</strong> and <strong>Asterisk PBX</strong>—delivering your SMS/2FA codes instantly to Telegram and streaming phone calls directly to your browser softphone or smartphone.
-    </p>
-    <div class="hero-actions">
-      <a href="{{ '/hardware' | relative_url }}" class="btn-cta-primary">
-        <i class="fas fa-microchip"></i> Hardware Guide
-      </a>
-      <a href="{{ '/software' | relative_url }}" class="btn-cta-secondary">
-        <i class="fas fa-terminal"></i> Server Setup Guide
-      </a>
-      <a href="{{ '/connect' | relative_url }}" class="btn-cta-secondary">
-        <i class="fas fa-phone-alt"></i> Web Softphone
-      </a>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">
+          <i class="fas fa-satellite-dish"></i> Open Source · Self-Hosted Privacy
+        </div>
+        <h1 class="hero-title">
+          Leave your physical SIMs at home. <span class="gradient-text">Roam free anywhere in the world.</span>
+        </h1>
+        <p class="hero-desc">
+          Say goodbye to expensive international roaming surcharges. RemoSIM connects your physical SIM cards to a <strong>Raspberry Pi</strong> using <strong>Huawei USB dongles</strong> and <strong>Asterisk PBX</strong>—delivering your SMS/2FA codes instantly to Telegram and streaming phone calls directly to your browser softphone or smartphone.
+        </p>
+        <div class="hero-actions">
+          <a href="{{ '/hardware' | relative_url }}" class="btn-cta-primary">
+            <i class="fas fa-microchip"></i> Hardware Guide
+          </a>
+          <a href="{{ '/software' | relative_url }}" class="btn-cta-secondary">
+            <i class="fas fa-terminal"></i> Server Setup Guide
+          </a>
+          <a href="{{ '/connect' | relative_url }}" class="btn-cta-secondary">
+            <i class="fas fa-phone-alt"></i> Web Softphone
+          </a>
+        </div>
+      </div>
+
+      <!-- Real Multi-SIM Hardware Setup Photo -->
+      <div class="hero-image-card">
+        <img src="{{ '/assets/img/home.jpg' | relative_url }}" alt="RemoSIM multi-SIM USB modem array connected to powered USB hub">
+        <div class="hero-image-badge">
+          <i class="fas fa-sim-card"></i> Multi-SIM Cellular Array with Powered Hub
+        </div>
+      </div>
     </div>
   </div>
 </section>
