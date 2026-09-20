@@ -8,10 +8,6 @@ description: "Comprehensive step-by-step guide to installing Asterisk 22 LTS, Fr
 
 This guide covers installing and configuring the modern RemoSIM software stack on **Raspbian Bookworm 64-bit / aarch64** (with Asterisk 22 LTS, FreePBX 17, native Opus codec, and WebRTC softphone support).
 
-<div class="callout callout-info">
-  <div class="callout-title"><i class="fas fa-history"></i> Legacy Bullseye Documentation</div>
-  <p>Looking for the legacy configuration for Debian Bullseye (Asterisk 18 / FreePBX 16)? View our <a href="{{ '/software-bullseye' | relative_url }}">Legacy Bullseye Setup Guide</a>.</p>
-</div>
 
 ---
 
