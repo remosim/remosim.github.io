@@ -1,13 +1,14 @@
 menu:
-- {name: 'Hardware', url: '/hardware'}
-- {name: 'Software', url: '/software'}
-- {name: 'Connect', url: '/connect'}
-- {name: 'Support', url: '/support'}
-- {name: 'Github', url: '/github'}
+  - {name: 'Home', url: '/'}
+  - {name: 'Hardware', url: '/hardware'}
+  - {name: 'Software', url: '/software'}
+  - {name: 'Web Softphone', url: '/connect'}
+  - {name: 'Mobile Clients', url: '/client'}
+  - {name: 'Support', url: '/support'}
+  - {name: 'GitHub', url: '/github'}
 
 social:
-- {icon: 'github', link: 'https://github.com/remosim'}
-- {icon: 'twitter', link: 'https://twitter.com/remosim_com'}
-- {icon: 'instagram', link: 'https://instagram.com/remosim_com'}
-- {icon: 'linkedin', link: 'https://linkedin.com/in/remosim'}
-
+  - {icon: 'github', link: 'https://github.com/remosim'}
+  - {icon: 'twitter', link: 'https://twitter.com/remosim_com'}
+  - {icon: 'instagram', link: 'https://instagram.com/remosim_com'}
+  - {icon: 'linkedin', link: 'https://linkedin.com/in/remosim'}

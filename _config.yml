@@ -1,5 +1,9 @@
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-baseurl: "" # the subpath of your site, e.g. /blog
-title: "RemoSIM" # the name of your site, e.g. ACME Corp.
-description: "Roam free Simcard Calls and Texts"
+url: "https://www.remosim.com"
+baseurl: ""
+title: "RemoSIM"
+tagline: "Remote Physical SIM Management · Zero Roaming Fees"
+description: "Open-source remote SIM management platform powered by Raspberry Pi, Asterisk PBX, chan_dongle, Telegram 2FA bot, and WebRTC softphones."
 markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

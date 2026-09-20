@@ -1,18 +1,60 @@
-<header class="d-flex flex-column flex-md-row align-items-center pb-3 mb-5 border-bottom">
-  <div>
-    <a href="{{ site.github.url }}/" class="d-flex align-items-center text-decoration-none">
-      <span class="fs-4 fw-bold">{{ site.title }}</span>
-    </a>
-    <a href="{{ site.github.url }}/" class="d-flex align-items-center text-decoration-none">
-      <span>{{ site.description }}</span>
-    </a>
-  </div>
-  <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-    <button id="theme-toggle" class="btn btn-sm btn-outline-secondary">
-      <i class="fas fa-moon"></i>
-    </button>
+<header class="navbar-custom">
+  <a href="{{ '/' | relative_url }}" class="brand-link">
+    <div class="brand-logo-icon">
+      <i class="fas fa-sim-card"></i>
+    </div>
+    <div class="brand-text-block">
+      <span class="brand-name">RemoSIM</span>
+      <span class="brand-tagline">Remote SIM & VoIP Platform</span>
+    </div>
+  </a>
+
+  <!-- Desktop Navigation -->
+  <nav class="nav-links-desktop">
     {% for item in site.data.settings.menu %}
-      <a class="me-3 py-2 text-decoration-none" href="{{ site.github.url }}{{ item.url }}">{{ item.name }}</a>
+      {% assign is_active = false %}
+      {% if item.url == '/' and page.url == '/' %}
+        {% assign is_active = true %}
+      {% elsif item.url != '/' and page.url contains item.url %}
+        {% assign is_active = true %}
+      {% endif %}
+      <a class="nav-item-link {% if is_active %}active{% endif %}" href="{{ item.url | relative_url }}">
+        {{ item.name }}
+      </a>
     {% endfor %}
   </nav>
+
+  <!-- Right Actions: GitHub, Theme Toggle, Mobile Toggle -->
+  <div class="nav-actions">
+    <a href="https://github.com/remosim" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary d-none d-sm-inline-flex align-items-center gap-1" style="border-radius: var(--radius-sm); padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+      <i class="fab fa-github"></i>
+      <span>GitHub</span>
+    </a>
+
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode" title="Toggle Theme">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <button id="mobile-menu-btn" class="mobile-menu-toggle" aria-label="Open Navigation Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
 </header>
+
+<!-- Mobile Navigation Drawer -->
+<nav class="nav-mobile-drawer" id="mobile-drawer">
+  {% for item in site.data.settings.menu %}
+    {% assign is_active = false %}
+    {% if item.url == '/' and page.url == '/' %}
+      {% assign is_active = true %}
+    {% elsif item.url != '/' and page.url contains item.url %}
+      {% assign is_active = true %}
+    {% endif %}
+    <a class="nav-item-link {% if is_active %}active{% endif %}" href="{{ item.url | relative_url }}">
+      {{ item.name }}
+    </a>
+  {% endfor %}
+  <a class="nav-item-link" href="https://github.com/remosim" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-github me-1"></i> GitHub Repository
+  </a>
+</nav>

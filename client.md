@@ -1,146 +1,132 @@
 ---
 layout: content
-title: "Client"
+title: "Mobile & Desktop SIP Clients"
+description: "Step-by-step configuration guides for iOS (SessionTalk, Zoiper), Android, macOS (Telephone app), and desktop SIP clients with RemoSIM."
 ---
 
-## Connecting to the VOIP server
+# Mobile & Desktop SIP Softphones
 
-You need to use a VoIP (Voice Over IP) client to use your simcard remotely for answering or making calls. This page provides instructions on how to configure a VoIP client on your phone.
+In addition to our browser-based [Web Softphone]({{ '/connect' | relative_url }}), you can install dedicated VoIP softphone apps on your smartphone or computer to answer and place calls through your remote SIM cards anywhere in the world.
 
-We provide you the required settings in your RemoSIM product information email:
-VoIP Username
-VoIP Password
-VoIP SIP Port
-VoIP Protocol
-VoIP Server
+---
 
-You need to search for a VoIP client software for your device and configure it to use the above information. 
+## Account Parameters Checklist
 
-You can always use *43 to make a test echo call on your VoIP client to ensure you have set up everything correctly.
+When setting up any softphone application, you will need the credentials configured in your Asterisk / FreePBX extension:
 
-The followings are some clients we have tested.
+| Parameter | Description | Example Value |
+|:---|:---|:---|
+| **Display Name** | Your name or caller ID | `John Doe` |
+| **Username / Extension** | Asterisk Extension number | `1001` |
+| **Password / Secret** | SIP Secret for the extension | `<YOUR_SIP_PASSWORD>` |
+| **SIP Server / Domain** | Server hostname and port | `sip.yourdomain.com:5060` |
+| **Transport** | Network protocol | `UDP` (or `TLS` if configured) |
+| **NAT Keep-Alive** | Keeps cellular firewall port open | `Always Send` / `Enabled` |
 
-## MacOS
+---
 
-You may install [Telephone](https://apps.apple.com/us/app/telephone/id406825478?mt=12) from App store and configure it as follows to make / receive calls:
+## 1. Apple iOS (iPhone)
 
-To add a new account: Telephone -> Preferences -> Accounts -> "+"
+We recommend either **SessionTalk** or **Zoiper Lite** on iOS for reliable push notifications and battery-efficient background operation.
 
-|![Telephone](/assets/img/client-telephone.png)|
-|:--:| 
-|*Configuration example for Telephone Software*|
+### Option A: SessionTalk SIP Softphone (Recommended)
+1. Install [SessionTalk SIP Softphone](https://apps.apple.com/us/app/sessiontalk-sip-softphone/id362501443) from the App Store.
+2. Tap **Settings &rarr; Manage Accounts &rarr; Add Account &rarr; Generic SIP**.
+3. Configure the following fields:
+   - **Account Name**: `RemoSIM`
+   - **Display Name**: Your Name
+   - **User Name**: Your Extension (e.g. `1001`)
+   - **Password**: Your SIP Secret
+   - **Domain / Host**: `sip.yourdomain.com:5060`
+4. Under **Advanced Settings**:
+   - **IP Version**: `IPv4`
+   - **UDP Keepalive**: `Enabled`
+5. Tap **Save**. The account indicator turns green when registered.
 
-Full name: Your name
-Domain: VoipServer:VoipSipPort e.g. john.remosim.com:5068
-Username: Voip Username
-Password: Voip Password
-
-You will see "Available" status in the window if you have entered the correct information. You can use the input box to dial numbers. Dial *43 and press Return for to make an echo test call first:
-
-|![Telephone](/assets/img/client-telephone-2.png)|
-|:--:| 
-|*Telephone Software in "Available" mode means that it is connected*|
-
-To edit your settings, or add a new voip account, click on Telephone Menu on top left side in MacOS, click on Preferences, choose the Accounts Tab. 
-
-Click on "+" to create a new account. 
-
-To edit an existing account, you need to uncheck "Use this account", edit your account, then check "Use this account" to  apply.
-
-## Android
-
-Android has a built-in voip client. Some phone manufacturers like Samsung has removed this built-in feature though. 
-
-### Native Android VoIP client
-
-{% include youtube.html id="txPb90s1IJ4" %}
-
-To use the native client, open the Phone app, click on the three dots and enter Settings. Enter Calling accounts section and click on SIP accounts. Click on the + icon to create a new SIP account.
-
-Enter your VoIP Username, VoIP Password and VoIP server.
-
-Click on Optional settings and Update the Port number. Set Send keep-alive to Always send.
-
-### Zoiper VoIP client on Android
-
-For Android devices that does not have the built-in VoIP client feature, You may use an application such as Zoiper to connect to the VoIP server. 
-
-{% include youtube.html id="ESMEm0HODtc" %}
-
-
-## iPhone
-
-On iPhone, you need to use a VoIP client software such as [SessionTalk](https://apps.apple.com/us/app/sessiontalk-sip-softphone/id362501443) or [Zoiper Lite VOIP](https://apps.apple.com/us/app/zoiper-lite-voip-soft-phone/id438949960) soft phone. 
-
-### Zoiper Lite VOIP soft phone
+### Option B: Zoiper Lite on iOS
+1. Install [Zoiper Lite](https://apps.apple.com/us/app/zoiper-lite-voip-soft-phone/id438949960) from the App Store.
+2. Go to **Settings &rarr; Accounts &rarr; + &rarr; Yes &rarr; Manual Configuration &rarr; SIP account**.
+3. Enter your account details:
+   - **Account name**: `RemoSIM`
+   - **Domain**: `sip.yourdomain.com:5060`
+   - **User name**: `1001`
+   - **Password**: Your SIP Secret
+4. Go to **Network Settings** and ensure **Enable IPv6** is set to **NO**.
 
 {% include youtube.html id="tEpUlD9WvE8" %}
 
+---
 
-After installing Zoiper soft phone, enter Settings -> Accounts -> + Do you already have an account = Yes  -> Manual Configuration -> SIP account. Then enter the settings from the Account Information E-Mail we have sent you:
+## 2. Android
 
-VoIP Username
-VoIP Password
-VoIP Port
-VoIP Protocol
-VoIP Server
+### Option A: Zoiper VoIP Client
+1. Install **Zoiper IAX SIP VOIP Softphone** from the Google Play Store.
+2. Open Zoiper and click **Use free with ads** (or enter your license).
+3. In the setup wizard:
+   - Enter your `username@sip.yourdomain.com:5060`
+   - Enter your SIP password
+4. Select **SIP UDP** as the transport provider.
 
-Account name: Your_Name
-Domain: VoIP_Server:VoIP_Port
-User name: VoIP_Username
-Password: VOIP_Password
+{% include youtube.html id="ESMEm0HODtc" %}
 
-Network Settings -> Enable IPv6: NO (Disable it)
+### Option B: Native Android SIP (Samsung/Google where available)
+Some Android firmware builds contain a built-in SIP client:
+1. Open the stock **Phone** application.
+2. Tap the three dots menu &rarr; **Settings &rarr; Calling accounts &rarr; SIP accounts**.
+3. Tap **+** to add an account:
+   - **Username**: Your Extension
+   - **Password**: Your SIP Secret
+   - **Server**: `sip.yourdomain.com:5060`
+   - Under **Optional settings**, set **Send keep-alive** to `Always send`.
 
-To receive incoming calls, you need to buy a subscription from Zoiper in the Incoming calls section.
+{% include youtube.html id="txPb90s1IJ4" %}
 
-### SessionTalk for iPhone
+---
 
-You may also use SessionTalk VoIP client on iPhone. After installing SessionTalk, choose Generic SIP and configure it as follows:
+## 3. macOS (Apple Mac)
 
-Account Name: Your name
-Display Name: Your name
-UserName: VoIP_Username
-Password: VOIP_Password
-Domain: VoIP_Server:VoIP_Port
+On macOS, the lightweight [Telephone](https://apps.apple.com/us/app/telephone/id406825478?mt=12) app is free and straightforward:
 
-Advanced -> 
-IP Version: IPV4
-UDP Keepalive: Enabled
-Miscellaneous ->
-RTP Port Start: VOIP RTP START
-RTP Port End: VOIP RTP END
+1. Install **Telephone** from the Mac App Store.
+2. Open Telephone &rarr; **Preferences &rarr; Accounts &rarr; +**:
+   - **Full Name**: Your Name
+   - **Domain**: `sip.yourdomain.com:5060`
+   - **User Name**: Your Extension
+   - **Password**: Your SIP Secret
+3. Check **Use this account**. Once registered, the status bar will display **Available**:
 
-Enabled: Yes
+<div style="text-align: center; margin: 1.5rem 0;">
+  <img src="{{ '/assets/img/client-telephone-2.png' | relative_url }}" alt="Telephone App Connected" style="max-width: 320px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-md);">
+  <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+    <em>Telephone App showing "Available" state on macOS.</em>
+  </div>
+</div>
 
+---
 
-## Windows / Linux / Mac
+## 4. Windows & Linux Desktop
 
-[Jitsi Desktop](https://desktop.jitsi.org/Main/Download.html) is available for Windows / Linux / MacOS. 
-The installation is straightforward on Windows / MacOS. 
-On Linux: [Java v8 (1.8.x)](https://www.java.com/en/download/) is currently required to run Jitsi client. You need to [set this version of java](https://askubuntu.com/a/878657/597140) as the default version rather than openjdk-11-jre java that's installed by default.
+For Windows or Linux workstations, you can use [Linphone](https://www.linphone.org/) or [Jitsi Desktop](https://desktop.jitsi.org/):
 
-After running Jitsi for the first time, cancel the new account wizard and use File -> Add a new account to add your SIP account as follows.
+1. Download and run the installer for your operating system.
+2. Select **Add a SIP Account**:
+   - **SIP ID**: `1001@sip.yourdomain.com`
+   - **Password**: Your SIP Secret
+   - **Proxy**: `sip.yourdomain.com:5060`
+   - **Transport**: `UDP`
 
-Network: SIP
-SIP id: Voip Username
-Password: Voip Password
-then click on Advanced:
-Display name: Your Name
+<div style="text-align: center; margin: 1.5rem 0;">
+  <img src="{{ '/assets/img/JitsiSIP0.png' | relative_url }}" alt="SIP Setup on Desktop" style="max-width: 440px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-md);">
+</div>
 
-|![Telephone](/assets/img/JitsiSIP0.png)|
-|:--:| 
-|*SIP settings for JITSI*|
+---
 
-In the connection tab:
-Registrar: Voip Server
-Port: VoipSipPort
-and uncheck "Configure proxy automatically" and enter the same settings for Proxy server and port:
+## 5. Verifying Connection: Asterisk Echo Test
 
-Proxy: Voip Server
-Port: VoipSipPort
-Preferred Transport: UDP
+After configuring your softphone client, always verify two-way audio by placing an echo test call:
 
-|![Telephone](/assets/img/JitsiSIP2.png)|
-|:--:| 
-|*SIP settings for JITSI*|
+1. Dial **`*43`** on your softphone dialpad.
+2. Speak into your headset or microphone.
+3. You should hear your own voice echoed back immediately.
+   - If you hear the prompt but not your voice, check microphone permissions.
+   - If the call drops after 5 to 30 seconds or there is no audio in either direction, verify your RTP port forwarding (UDP ports `10000-20000`) and STUN/TURN configuration.

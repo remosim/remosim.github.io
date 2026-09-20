@@ -394,8 +394,8 @@ if receiver:
 
 if dongle=="dongle2":
 	# Send SMS to dongle2 owner if it is from a specific sender
-	if sender in ["Content Required to be fouind in the text", "+15550100001"] :
-		print(subprocess.run(["/usr/sbin/asterisk", "-rx", "dongle sms dongle2 +15550100002 {}".format(message) ])  )
+	if sender in ["Content Required to be fouind in the text", "+15550100002"] :
+		print(subprocess.run(["/usr/sbin/asterisk", "-rx", "dongle sms dongle2 +15550100003 {}".format(message) ])  )
 
 if dongle=="jitsi" or dongle=="parking":
 	chatid = dest 
